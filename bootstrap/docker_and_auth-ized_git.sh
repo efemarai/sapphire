@@ -5,17 +5,20 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
 # assuming the system is Debian
-printf "${GREEN}Installing vim, tmux, and git${NC}\n"
+printf "${GREEN}Installing vim, tmux, git, make, unzip, and htop${NC}\n"
 sudo apt-get update
 sudo apt-get install vim -y
 sudo apt-get install tmux -y
 sudo apt-get install git -y
+sudo apt-get install make -y
+sudo apt-get install unzip -y
+sudo apt-get install htop -y
 
 
-printf "${GREEN}Storing public IP of instsance as an env var{$NC}\n"
+printf "${GREEN}Storing public IP of instance as an env var${NC}\n"
 public_ip=$(curl ifconfig.me)
 echo "export PUBLIC_IP=$public_ip" >> ~/.bashrc
-printf "${GREEN}Public IP of instsance is $public_ip{$NC}\n"
+printf "${GREEN}Public IP of instance is $public_ip${NC}\n"
 
 
 printf "${GREEN}Pulling config files to home directory${NC}\n"
