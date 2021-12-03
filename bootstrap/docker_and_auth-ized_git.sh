@@ -1,4 +1,8 @@
 #!/bin/bash
+# To get and run this script, do this:
+# wget https://raw.githubusercontent.com/efemarai/sapphire/main/bootstrap/docker_and_auth-ized_git.sh
+# chmod +x docker_and_auth-ized_git.sh
+# ./docker_and_auth-ized_git.sh
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
 GREEN='\033[0;32m'
@@ -13,12 +17,6 @@ sudo apt-get install git -y
 sudo apt-get install make -y
 sudo apt-get install unzip -y
 sudo apt-get install htop -y
-
-
-printf "${GREEN}Storing public IP of instance as an env var${NC}\n"
-public_ip=$(curl ifconfig.me)
-echo "export PUBLIC_IP=$public_ip" >> ~/.bashrc
-printf "${GREEN}Public IP of instance is $public_ip${NC}\n"
 
 
 printf "${GREEN}Pulling config files to home directory${NC}\n"
