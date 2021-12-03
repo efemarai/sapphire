@@ -12,14 +12,27 @@ sudo apt-get install tmux -y
 sudo apt-get install git -y
 
 
+printf "${GREEN}Storing public IP of instsance as an env var{$NC}\n"
+public_ip=$(curl ifconfig.me)
+echo "export PUBLIC_IP=$public_ip" >> ~/.bashrc
+printf "${GREEN}Public IP of instsance is $public_ip{$NC}\n"
+
+
 printf "${GREEN}Pulling config files to home directory${NC}\n"
 wget https://raw.githubusercontent.com/efemarai/sapphire/main/home/.vimrc -P ~
 wget https://raw.githubusercontent.com/efemarai/sapphire/main/home/.tmux.conf -P ~
 
 
 printf "${GREEN}Configuring git authorization${NC}\n"
+# first, allow the instance to read the repo programatically
+printf "${YELLOW}Please, generate a 'repo-read' access token for git.\n"
+printf "(See https://github.com/settings/tokens):${NC} "
+read gitkey
+echo "export GIT_KEY=$gitkey" >> ~/.bashrc
+
+# then, allow the instance to access github
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ""
-printf "${YELLOW}Here is the generated public key: add it to your github account${NC}\n"
+printf "${YELLOW}A public key was generated: please, add it to your github account${NC}\n"
 cat ~/.ssh/id_ed25519.pub
 printf "${YELLOW}... then, press [Enter] to continue...${NC}\n"
 read
@@ -41,6 +54,7 @@ echo \
 
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+echo "export DOCKER_BUILDKIT=1" >> ~/.bashrc
 
 
 printf "${GREEN}Installing docker-compose${NC}\n"
@@ -49,10 +63,15 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+echo "export COMPOSE_DOCKER_CLI_BUILD=1" >> ~/.bashrc
 
 
 printf "${GREEN}Removing self${NC}\n"
 rm docker_and_auth-ized_git.sh
+
+
+printf "${GREEN}Applying all changes written to .bashrc${NC}\n"
+source ~/.bashrc
 
 
 printf "${GREEN}Starting tmux${NC}\n"
