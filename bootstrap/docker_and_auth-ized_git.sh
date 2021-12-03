@@ -12,25 +12,17 @@ sudo apt-get install tmux -y
 sudo apt-get install git -y
 
 
+printf "${GREEN}Pulling config files to home directory${NC}\n"
+wget https://raw.githubusercontent.com/efemarai/sapphire/main/home/.vimrc -P ~
+wget https://raw.githubusercontent.com/efemarai/sapphire/main/home/.tmux.conf -P ~
+
+
 printf "${GREEN}Configuring git authorization${NC}\n"
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ""
 printf "${YELLOW}Here is the generated public key: add it to your github account${NC}\n"
 cat ~/.ssh/id_ed25519.pub
 printf "${YELLOW}... then, press [Enter] to continue...${NC}\n"
 read
-
-
-printf "${GREEN}Pulling config files and copying them to home directory${NC}\n"
-# Checkout bootstrap repo in a temp folder
-tmpdir=$(mktemp -d)
-git clone git@github.com:efemarai/sapphire.git $tmpdir
-
-# copy config files to home
-cp $tmpdir/home/.vimrc ~
-cp $tmpdir/home/.tmux.conf ~
-
-# Remove the temp folder to clean up
-rm -rf $tmpdir
 
 
 printf "${GREEN}Installing docker${NC}\n"
