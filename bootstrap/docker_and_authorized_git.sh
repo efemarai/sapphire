@@ -1,8 +1,10 @@
 #!/bin/bash
 # To get and run this script, do this:
-# wget https://raw.githubusercontent.com/efemarai/sapphire/main/bootstrap/docker_and_auth-ized_git.sh
-# chmod +x docker_and_auth-ized_git.sh
-# ./docker_and_auth-ized_git.sh
+<<code
+wget https://raw.githubusercontent.com/efemarai/sapphire/main/bootstrap/docker_and_authorized_git.sh
+chmod +x docker_and_authorized_git.sh
+./docker_and_authorized_git.sh
+code
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
 GREEN='\033[0;32m'
