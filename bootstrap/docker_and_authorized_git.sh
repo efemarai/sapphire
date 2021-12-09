@@ -32,7 +32,6 @@ then
 fi
 
 
-
 # assuming the system is Debian
 printf "${GREEN}Installing git, htop, make, tmux, unzip, vim, and wget${NC}\n"
 sudo apt-get update
@@ -48,6 +47,11 @@ sudo apt-get install wget -y
 printf "${GREEN}Pulling config files to home directory${NC}\n"
 wget https://raw.githubusercontent.com/efemarai/sapphire/main/home/.vimrc -P ~
 wget https://raw.githubusercontent.com/efemarai/sapphire/main/home/.tmux.conf -P ~
+
+
+printf "${GREEN}Installing vim plugins${NC}\n"
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+vim +PluginInstall +qall
 
 
 printf "${GREEN}Configuring git authorization${NC}\n"

@@ -4,6 +4,25 @@ set nocompatible
 " Syntax highlighting.
 syntax on
 
+" Setup Vundle
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" install Jedi -- python autocompletion
+Plugin 'davidhalter/jedi-vim'
+
+" install tmux-navigator for moving between panes
+Plugin 'christoomey/vim-tmux-navigator'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+
 " Set filetype indentation, pluging loading, and detection.
 filetype indent plugin on
 
