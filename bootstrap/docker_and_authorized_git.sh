@@ -40,7 +40,7 @@ sudo apt-get install htop -y
 sudo apt-get install make -y
 sudo apt-get install tmux -y
 sudo apt-get install unzip -y
-sudo apt-get install vim -y
+sudo apt-get install vim-gtk -y # gtk to include python support
 sudo apt-get install wget -y
 
 
