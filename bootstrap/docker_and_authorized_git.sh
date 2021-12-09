@@ -10,6 +10,13 @@ YELLOW='\033[0;33m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
+# Exports an environment variable to ~/.bashrc
+# $1 is the name of the env var
+# $2 is the value to be exported
+export_env_var () {
+  echo "export $1=$2" >> ~/.bashrc
+}
+
 # assuming the system is Debian
 printf "${GREEN}Installing vim, tmux, git, make, unzip, and htop${NC}\n"
 sudo apt-get update
@@ -31,7 +38,8 @@ printf "${GREEN}Configuring git authorization${NC}\n"
 printf "${YELLOW}Please, generate a 'repo-read' access token for git.\n"
 printf "(See https://github.com/settings/tokens):${NC} "
 read gitkey
-echo "export GIT_KEY=$gitkey" >> ~/.bashrc
+export_env_var "GIT_KEY" "$gitkey"
+
 
 # then, allow the instance to access github
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ""
@@ -57,7 +65,7 @@ echo \
 
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
-echo "export DOCKER_BUILDKIT=1" >> ~/.bashrc
+export_env_var "DOCKER_BUILDKIT" "1"
 
 
 printf "${GREEN}Installing docker-compose${NC}\n"
@@ -66,7 +74,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-echo "export COMPOSE_DOCKER_CLI_BUILD=1" >> ~/.bashrc
+export_env_var "COMPOSE_DOCKER_CLI_BUILD" "1"
 
 
 printf "${GREEN}Removing self${NC}\n"
