@@ -6,5 +6,5 @@ This repo hosts publicly available dev-resources, e.g. a script that helps boots
 ```
 wget https://raw.githubusercontent.com/efemarai/sapphire/main/bootstrap/docker_and_authorized_git.sh
 chmod +x docker_and_authorized_git.sh
-./docker_and_authorized_git.sh
+. docker_and_authorized_git.sh
 ```

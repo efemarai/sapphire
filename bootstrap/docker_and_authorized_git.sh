@@ -3,7 +3,7 @@
 <<code
 wget https://raw.githubusercontent.com/efemarai/sapphire/main/bootstrap/docker_and_authorized_git.sh
 chmod +x docker_and_authorized_git.sh
-./docker_and_authorized_git.sh
+. docker_and_authorized_git.sh
 code
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
@@ -13,19 +13,36 @@ NC='\033[0m' # No Color
 # Exports an environment variable to ~/.bashrc
 # $1 is the name of the env var
 # $2 is the value to be exported
+# $3 (optional) is a string that will be prepended as a comment
 export_env_var () {
+  if  [ -n "$3" ]
+  then
+    echo "" >> ~/.bashrc
+    echo "# $3" >> ~/.bashrc
+  fi
   echo "export $1=$2" >> ~/.bashrc
 }
 
+
+if [ -n "$SAPPHIRE_BOOTSTRAP_COMPLETED" ]
+then
+  printf "${GREEN}Bootstrap script has already been run successfully.${NC}\n"
+  printf "${GREEN}Unset SAPPHIRE_BOOTSTRAP_COMPLETED to force running it again.${NC}\n"
+  exit 1
+fi
+
+
+
 # assuming the system is Debian
-printf "${GREEN}Installing vim, tmux, git, make, unzip, and htop${NC}\n"
+printf "${GREEN}Installing git, htop, make, tmux, unzip, vim, and wget${NC}\n"
 sudo apt-get update
-sudo apt-get install vim -y
-sudo apt-get install tmux -y
 sudo apt-get install git -y
-sudo apt-get install make -y
-sudo apt-get install unzip -y
 sudo apt-get install htop -y
+sudo apt-get install make -y
+sudo apt-get install tmux -y
+sudo apt-get install unzip -y
+sudo apt-get install vim -y
+sudo apt-get install wget -y
 
 
 printf "${GREEN}Pulling config files to home directory${NC}\n"
@@ -60,7 +77,8 @@ curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor \
   -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
+  https://download.docker.com/linux/debian \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt-get update
@@ -69,7 +87,9 @@ export_env_var "DOCKER_BUILDKIT" "1"
 
 
 printf "${GREEN}Installing docker-compose${NC}\n"
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl\
+  -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)"\
+  -o /usr/local/bin/docker-compose
 
 sudo chmod +x /usr/local/bin/docker-compose
 
@@ -78,11 +98,22 @@ export_env_var "COMPOSE_DOCKER_CLI_BUILD" "1"
 
 
 printf "${GREEN}Removing self${NC}\n"
-rm docker_and_auth-ized_git.sh
+rm docker_and_authorized_git.sh
+
+
+export_env_var\
+  "SAPPHIRE_BOOTSTRAP_COMPLETED" "1"\
+  "Setting this var to anything will prevent the bootstrap script from running again"
 
 
 printf "${GREEN}Applying all changes written to .bashrc${NC}\n"
 source ~/.bashrc
+
+
+unset RED
+unset YELLOW
+unset GREEN
+unset NC
 
 
 printf "${GREEN}Starting tmux${NC}\n"
