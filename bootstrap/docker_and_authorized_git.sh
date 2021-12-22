@@ -89,6 +89,7 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 export_env_var "DOCKER_BUILDKIT" "1"
 
+sudo usermod -aG docker $USER
 
 printf "${GREEN}Installing docker-compose${NC}\n"
 sudo curl\
