@@ -111,15 +111,10 @@ export_env_var\
   "Setting this var to anything will prevent the bootstrap script from running again"
 
 
-printf "${GREEN}Applying all changes written to .bashrc${NC}\n"
-source ~/.bashrc
+printf "${GREEN}Please login again, so that changes to group memeberships can take place${NC}\n"
 
 
 unset RED
 unset YELLOW
 unset GREEN
 unset NC
-
-
-printf "${GREEN}Starting tmux${NC}\n"
-tmux
