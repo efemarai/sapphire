@@ -48,6 +48,8 @@ printf "${GREEN}Pulling config files to home directory${NC}\n"
 wget https://raw.githubusercontent.com/efemarai/sapphire/main/home/.vimrc -P ~
 wget https://raw.githubusercontent.com/efemarai/sapphire/main/home/.tmux.conf -P ~
 
+printf "${GREEN}Installing tmux plugin manager${NC}\n"
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 printf "${GREEN}Installing vim plugins${NC}\n"
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
