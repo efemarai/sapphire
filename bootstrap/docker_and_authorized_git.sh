@@ -57,7 +57,13 @@ vim +PluginInstall +qall
 
 
 printf "${GREEN}Configuring git authorization${NC}\n"
-# allow the instance to access github
+# first, allow the instance to read the repo programatically
+printf "${YELLOW}Please, generate a 'repo-read' access token for git.\n"
+printf "(See https://github.com/settings/tokens):${NC} "
+read gitkey
+export_env_var "GIT_KEY" "$gitkey"
+
+# then, allow the instance to access github
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ""
 printf "${YELLOW}A public key was generated: please, add it to your github account${NC}\n"
 cat ~/.ssh/id_ed25519.pub
